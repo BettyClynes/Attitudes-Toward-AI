@@ -1,0 +1,48 @@
+---
+title: "Data Management"
+format: 
+  pdf: 
+    number-sections: true 
+    toc: true            
+    pdf-engine: xelatex   
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(descr)
+library(knitr)
+library(dplyr)
+library(haven)
+library(labelled)
+```
+
+```{r load-data}
+file_path <- file.path("..","data","data_clean.sav")
+```
+
+```{r df}
+df <- read_sav(file_path)
+```
+
+```{r}
+head(df)
+```
+
+```{r}
+library(descr)
+```
+
+```{r}
+freq(as.ordered(df$gattAI2_8))
+freq(as.ordered(df$job_anx_2))
+freq(as.ordered(df$attitude2_1))
+```
+
+```{r}
+sum(is.na(df$gattAI2_8))
+sum(is.na(df$job_anx_2))
+sum(is.na(df$attitude2_1))
+```
+
+The frequency tables above display the data regarding psychotherapists' desire to use AI in their job, their fear about becoming dependent on the technology and losing reasoning skills, and their belief as to whether or not AI incorporation is a good idea. I chose to represent those three variables because together they offer a general summary about mental health professionals' preconceived beliefs, attitudes, and willingness to incorporate AI technology into their practice. The data rates the psychotherapists' responses from a scale of 1, meaning strongly disagree, to 5 or 7, meaning strongly agree.
