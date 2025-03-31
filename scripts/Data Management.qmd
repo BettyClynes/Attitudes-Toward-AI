@@ -15,6 +15,7 @@ library(knitr)
 library(dplyr)
 library(haven)
 library(labelled)
+library(learnr)
 ```
 
 ```{r load-data}
@@ -48,3 +49,82 @@ sum(is.na(df$attitude2_1))
 The frequency tables above display the data regarding psychotherapists' desire to use AI in their job, their fear about becoming dependent on the technology and losing reasoning skills, and their belief as to whether or not AI incorporation is a good idea. The data rates the psychotherapists' responses from a scale of 1, meaning strongly disagree, to 5 or 7, meaning strongly agree.
 
 The first frequency table shows that \~23% of those who answered the survey strongly disagree with having a desire to use AI in their practice, \~22% disagree, \~24% neither agree nor disagree, \~25 agree, and \~6% strongly agree. The second table shows that \~7% strongly disagree when asked if they fear becoming dependent on the technology, \~14% disagree, \~13% slightly disagree, \~11% neither agree nor disagree, \~31% slightly agree, \~17% agree, and \~7% strongly agree. The third table shows that \~26% strongly disagree with the sentiment that AI incorporation is a good idea, \~26% disagree, \~25% neither agree nor disagree, \~20% agree, and \~3% strongly agree.
+
+```{r}
+# Load necessary library
+library(ggplot2)
+
+# Data for the frequency table
+desire_to_use_ai <- data.frame(
+  Response = factor(c('Strongly Disagree', 'Disagree', 'Neither Agree nor Disagree', 'Agree', 'Strongly Agree'),
+                    levels = c('Strongly Disagree', 'Disagree', 'Neither Agree nor Disagree', 'Agree', 'Strongly Agree')),
+  Percentage = c(23, 22, 24, 25, 6)
+)
+
+# Create the bar chart
+ggplot(desire_to_use_ai, aes(x = Response, y = Percentage, fill = Response)) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c('skyblue', 'lightgreen', 'salmon', 'orange', 'purple')) +
+  labs(title = 'Desire to Use AI in Practice', x = NULL, y = 'Percentage') +
+  theme_minimal() +
+  theme(axis.text.x = element_blank())
+
+```
+
+The bar chart above displays psychotherapists' desire to incorporate AI into their work (categorical variable). The modal frequency is "Agree" (25%) which indicates that a majority of the sample is open to using AI. The least common frequency is "Strongly Disagree" (6%), which shows that a minority of those surveyed are adamantly against incorporating the technology.
+
+```{r}
+# Load necessary library
+library(ggplot2)
+
+# Data for the frequency table
+fear_of_dependency <- data.frame(
+  Response = factor(c('Strongly Disagree', 'Disagree', 'Slightly Disagree', 'Neither Agree nor Disagree', 'Slightly Agree', 'Agree', 'Strongly Agree'),
+                    levels = c('Strongly Disagree', 'Disagree', 'Slightly Disagree', 'Neither Agree nor Disagree', 'Slightly Agree', 'Agree', 'Strongly Agree')),
+  Percentage = c(7, 14, 13, 11, 31, 17, 7)
+)
+
+# Create the bar chart
+ggplot(fear_of_dependency, aes(x = Response, y = Percentage, fill = Response)) +
+  geom_bar(stat = 'identity') +
+  scale_fill_manual(values = c('skyblue', 'lightgreen', 'salmon', 'orange', 'purple', 'pink', 'yellow')) +
+  labs(title = 'Fear of Becoming Dependent on AI', x = NULL, y = 'Percentage') +
+  theme_minimal() +
+  theme(axis.text.x = element_blank())
+
+```
+
+The bar chart above displays psychotherapists' fear of becoming dependent on AI technology to perform their work (categorical variable). The modal frequency is "Slightly Agree" (31%) which shows that there is a predominant concern about dependency. "Strongly Disagree" (7%) and "Strongly Agree" (7%) are the least common responses, which shows that both extremes are less common views.
+
+```{r}
+# Load necessary library
+library(ggplot2)
+
+# Data for the frequency tables
+desire_to_use_ai <- data.frame(
+  Response = factor(c('Strongly Disagree', 'Disagree', 'Neither Agree nor Disagree', 'Agree', 'Strongly Agree'),
+                    levels = c('Strongly Disagree', 'Disagree', 'Neither Agree nor Disagree', 'Agree', 'Strongly Agree')),
+  Percentage = c(23, 22, 24, 25, 6)
+)
+
+fear_of_dependency <- data.frame(
+  Response = factor(c('Strongly Disagree', 'Disagree', 'Slightly Disagree', 'Neither Agree nor Disagree', 'Slightly Agree', 'Agree', 'Strongly Agree'),
+                    levels = c('Strongly Disagree', 'Disagree', 'Slightly Disagree', 'Neither Agree nor Disagree', 'Slightly Agree', 'Agree', 'Strongly Agree')),
+  Percentage = c(7, 14, 13, 11, 31, 17, 7)
+)
+
+# Create a combined data frame for plotting
+combined_data <- rbind(
+  data.frame(Response = desire_to_use_ai$Response, Percentage = desire_to_use_ai$Percentage, Category = 'Desire to Use AI in Practice'),
+  data.frame(Response = fear_of_dependency$Response, Percentage = fear_of_dependency$Percentage, Category = 'Fear of Becoming Dependent on AI')
+)
+
+# Create the bivariate bar chart
+ggplot(combined_data, aes(x = Response, y = Percentage, fill = Category)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  scale_fill_manual(values = c('skyblue', 'lightgreen')) +
+  labs(title = 'Desire to Use AI vs. Fear of Becoming Dependent on AI', x = 'Response Categories', y = 'Percentage') +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels = c('Strongly Disagree', '', '', '', '', '', 'Strongly Agree'))
+```
