@@ -128,3 +128,7 @@ ggplot(combined_data, aes(x = Response, y = Percentage, fill = Category)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_discrete(labels = c('Strongly Disagree', '', '', '', '', '', 'Strongly Agree'))
 ```
+
+```         
+# Replace 'your_column' with the name of your categorical column table(my_data$your_column)
+```
